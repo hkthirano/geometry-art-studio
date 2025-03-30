@@ -1,0 +1,1 @@
+az deployment sub create --location eastasia --template-file resources.bicep
