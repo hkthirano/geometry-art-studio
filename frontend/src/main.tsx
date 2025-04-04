@@ -36,7 +36,7 @@ msalInstance.initialize().then(() => {
     <StrictMode>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
-          <App />
+          <App pca={msalInstance} />
         </ThemeProvider>
       </BrowserRouter>
     </StrictMode>,

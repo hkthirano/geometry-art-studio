@@ -1,35 +1,43 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { ReactNode, useEffect, useState } from 'react'
+import { IPublicClientApplication } from '@azure/msal-browser';
+import { useNavigate } from 'react-router-dom';
+import { CustomNavigationClient } from './utils/NavigationClient';
+import { MsalProvider } from '@azure/msal-react';
 
-function App() {
-  const [count, setCount] = useState(0)
+type AppProps = {
+  pca: IPublicClientApplication;
+};
+
+function App({ pca }: AppProps) {
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <ClientSideNavigation pca={pca}>
+      <MsalProvider instance={pca}>
+        <div>hello</div>
+      </MsalProvider>
+    </ClientSideNavigation>
   )
+}
+
+/**
+ *  This component is optional. This is how you configure MSAL to take advantage of the router's navigate functions when MSAL redirects between pages in your app
+ */
+function ClientSideNavigation({ pca, children }: { pca: IPublicClientApplication; children: ReactNode }) {
+  const navigate = useNavigate();
+  const navigationClient = new CustomNavigationClient(navigate);
+  pca.setNavigationClient(navigationClient);
+
+  // react-router-dom v6 doesn't allow navigation on the first render - delay rendering of MsalProvider to get around this limitation
+  const [firstRender, setFirstRender] = useState(true);
+  useEffect(() => {
+    setFirstRender(false);
+  }, []);
+
+  if (firstRender) {
+    return null;
+  }
+
+  return children;
 }
 
 export default App
