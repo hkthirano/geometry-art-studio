@@ -1,9 +1,11 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
 import App from './App.tsx'
 import { AuthenticationResult, EventType, PublicClientApplication } from '@azure/msal-browser';
 import { msalConfig } from './authConfig.ts';
+import { ThemeProvider } from '@emotion/react';
+import { theme } from './styles/theme.ts';
+import { BrowserRouter } from 'react-router-dom';
 
 export const msalInstance = new PublicClientApplication(msalConfig);
 
@@ -32,7 +34,11 @@ msalInstance.initialize().then(() => {
 
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
-      <App />
+      <BrowserRouter>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </BrowserRouter>
     </StrictMode>,
   )
 });
