@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 interface ImportMetaEnv {
     readonly B2C_1_SISO_POLICY_NAME: string
     readonly B2C_1_PROFILE_EDIT_POLICY_NAME: string
