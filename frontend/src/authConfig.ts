@@ -18,18 +18,17 @@ export const b2cPolicies = {
     },
     authorities: {
         signUpSignIn: {
-            authority: 'https://hiranohkt.b2clogin.com/hiranohkt.onmicrosoft.com/B2C_1_susi',
+            authority: `https://hiranohkt.b2clogin.com/hiranohkt.onmicrosoft.com/B2C_1_susi`,
         },
         forgotPassword: {
-            authority: 'https://hiranohkt.b2clogin.com/hiranohkt.onmicrosoft.com/B2C_1_reset_password',
+            authority: `https://hiranohkt.b2clogin.com/hiranohkt.onmicrosoft.com/B2C_1_reset_password`,
         },
         editProfile: {
-            authority: 'https://hiranohkt.b2clogin.com/hiranohkt.onmicrosoft.com/B2C_1_edit_profile',
+            authority: `https://hiranohkt.b2clogin.com/hiranohkt.onmicrosoft.com/B2C_1_edit_profile`,
         },
     },
-    authorityDomain: 'hiranohkt.b2clogin.com',
+    authorityDomain: `hiranohkt.b2clogin.com`,
 };
-
 
 /**
  * Configuration object to be passed to MSAL instance on creation. 
@@ -38,7 +37,7 @@ export const b2cPolicies = {
  */
 export const msalConfig = {
     auth: {
-        clientId: '39fa575f-5da7-43c4-b87f-546b6579e290', // This is the ONLY mandatory field that you need to supply.
+        clientId: import.meta.env.VITE_B2C_CLIENT_ID, // This is the ONLY mandatory field that you need to supply.
         authority: b2cPolicies.authorities.signUpSignIn.authority, // Choose SUSI as your default authority.
         knownAuthorities: [b2cPolicies.authorityDomain], // Mark your B2C tenant's domain as trusted.
         redirectUri: '/', // You must register this URI on Azure Portal/App Registration. Defaults to window.location.origin
@@ -82,10 +81,10 @@ export const msalConfig = {
  */
 export const protectedResources = {
     apiTodoList: {
-        endpoint: 'http://localhost:5000/api/todolist',
+        endpoint: import.meta.env.VITE_API_URL,
         scopes: {
-            read: ['https://hiranohkt.onmicrosoft.com/tasks-api/tasks.read'],
-            write: ['https://hiranohkt.onmicrosoft.com/tasks-api/tasks.write'],
+            read: [`https://hiranohkt.onmicrosoft.com/tasks-api/tasks.read`],
+            write: [`https://hiranohkt.onmicrosoft.com/tasks-api/tasks.write`],
         },
     },
 };
