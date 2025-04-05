@@ -1,5 +1,3 @@
 # NOTE
 
-https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/samples/msal-react-samples/typescript-sample
-
-https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/samples/msal-react-samples/b2c-sample
+https://learn.microsoft.com/ja-jp/azure/active-directory-b2c/enable-authentication-react-spa-app
