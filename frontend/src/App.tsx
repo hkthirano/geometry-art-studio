@@ -8,6 +8,7 @@ import { Home } from './pages/Home';
 import { compareIssuingPolicy } from './utils/claimUtils';
 
 import './styles/App.css';
+import { TodoList } from './pages/TodoList';
 
 const Pages = () => {
   /**
@@ -91,7 +92,7 @@ const Pages = () => {
 
   return (
     <Routes>
-      {/* <Route path="/todolist" element={<TodoList />} /> */}
+      <Route path="/todolist" element={<TodoList />} />
       <Route path="/" element={<Home />} />
     </Routes>
   );
