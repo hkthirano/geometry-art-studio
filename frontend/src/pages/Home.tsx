@@ -24,9 +24,7 @@ export const Home = () => {
                             <IdTokenData idTokenClaims={activeAccount.idTokenClaims as IdTokenClaims} />
                         </Container>
                         :
-                        <Container>
-                            <h5 className="text-center">No account is signed in. Please sign in to view ID token claims.</h5>
-                        </Container>
+                        null
                 }
             </AuthenticatedTemplate>
         </>
