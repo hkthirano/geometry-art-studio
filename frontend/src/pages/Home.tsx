@@ -1,42 +1,32 @@
-import { AuthenticatedTemplate, UnauthenticatedTemplate, useMsal } from "@azure/msal-react";
-import { Paper, Stack } from "@mui/material";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
-import Typography from "@mui/material/Typography";
-import { Link as RouterLink } from "react-router-dom";
-import { EditProfileButton } from "../ui-components/EditProfileButton";
-import { TokenClaims } from "../ui-components/TokenClaims";
+import { AuthenticatedTemplate } from "@azure/msal-react";
+import { useMsal } from "@azure/msal-react";
+import { Container } from "react-bootstrap";
+import { IdTokenData } from "../components/DataDisplay";
+import { IdTokenClaims } from "@azure/msal-browser";
 
-type HomeProps = {
-    status: string;
-};
 
-export function Home({ status }: HomeProps) {
+/***
+ * Component to detail ID token claims with a description for each claim. For more details on ID token claims, please check the following links:
+ * ID token Claims: https://docs.microsoft.com/en-us/azure/active-directory/develop/id-tokens#claims-in-an-id-token
+ * Optional Claims:  https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-optional-claims#v10-and-v20-optional-claims-set
+ */
+export const Home = () => {
+
     const { instance } = useMsal();
+    const activeAccount = instance.getActiveAccount();
 
     return (
         <>
             <AuthenticatedTemplate>
-                <Typography id="interactionStatus" variant="h6">
-                    <center>{status}</center>
-                </Typography>
-                <Stack direction="column" spacing={2}>
-                    <ButtonGroup orientation="vertical">
-                        <Button component={RouterLink} to="/profile" variant="contained" color="primary" id="callApiButton">Call Hello API</Button>
-                        <EditProfileButton />
-                    </ButtonGroup>
-                    <Typography variant="body1">Claims in your ID token are shown below: </Typography>
-                    <Paper>
-                        {instance.getActiveAccount() ? <TokenClaims tokenClaims={instance?.getActiveAccount()?.idTokenClaims} /> : null}
-                    </Paper>
-                </Stack>
+                {
+                    activeAccount ?
+                        <Container>
+                            <IdTokenData idTokenClaims={activeAccount.idTokenClaims as IdTokenClaims} />
+                        </Container>
+                        :
+                        null
+                }
             </AuthenticatedTemplate>
-
-            <UnauthenticatedTemplate>
-                <Typography variant="h6">
-                    <center>Please sign-in to see your profile information.</center>
-                </Typography>
-            </UnauthenticatedTemplate>
         </>
-    );
+    )
 }
