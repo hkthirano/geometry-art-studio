@@ -1,0 +1,46 @@
+name: Backend CI
+
+env:
+  CS_PROJECT_PATH: './backend/api/api.csproj'
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'backend/**'
+  pull_request:
+    branches:
+      - master
+    paths:
+      - 'backend/**'
+
+jobs:
+  build_and_deploy:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+    
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Restore dependencies
+        run: dotnet restore ${{ env.CS_PROJECT_PATH }}
+
+      - name: Build the project
+        run: dotnet build ${{ env.CS_PROJECT_PATH }} --configuration Release --no-restore
+
+      - name: Publish the project
+        run: dotnet publish ${{ env.CS_PROJECT_PATH }} --configuration Release --output ./publish
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ secrets.API_RESOURCE_NAME }}
+          slot-name: 'production'
+          publish-profile: ${{ secrets.API_PUBLISH_PROFILE }}
+          package: ./publish
