@@ -4,7 +4,7 @@ import { AccountInfo, InteractionRequiredAuthError, InteractionStatus, Interacti
 
 // import { ListView } from '../components/ListView';
 import { loginRequest } from "../authConfig";
-import { callMsGraph } from '../utils/MsGraphApiCall';
+import { callApi } from '../utils/ApiCall';
 
 const TodoListContent = () => {
     const { instance, inProgress } = useMsal();
@@ -12,7 +12,7 @@ const TodoListContent = () => {
 
     useEffect(() => {
         if (!todoListData && inProgress === InteractionStatus.None) {
-            callMsGraph().then(response => setTodoListData(response)).catch((e) => {
+            callApi().then(response => setTodoListData(response)).catch((e) => {
                 if (e instanceof InteractionRequiredAuthError) {
                     instance.acquireTokenRedirect({
                         ...loginRequest,

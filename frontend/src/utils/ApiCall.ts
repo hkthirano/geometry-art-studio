@@ -1,7 +1,7 @@
 import { loginRequest, protectedResources } from "../authConfig";
 import { msalInstance } from "../main";
 
-export async function callMsGraph() {
+export async function callApi() {
     const account = msalInstance.getActiveAccount();
     if (!account) {
         throw Error("No active account! Verify a user has been signed in and setActiveAccount has been called.");
