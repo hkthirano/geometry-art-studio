@@ -10,6 +10,9 @@
         },
         "appServicePlanSku": {
             "value": "F1"
+        },
+        "appUrl": {
+            "value": "https://happy-meadow-0651a0c00.6.azurestaticapps.net"
         }
     }
 }

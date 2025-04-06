@@ -1,6 +1,7 @@
 param location string
 param staticWebAppSku string
 param appServicePlanSku string
+param appUrl string
 
 var resourceToken = uniqueString(resourceGroup().id, location)
 
@@ -31,5 +32,17 @@ resource webApp 'Microsoft.Web/sites@2024-04-01' = {
       minTlsVersion: '1.3'
     }
     httpsOnly: true
+  }
+}
+
+resource webAppConfig 'Microsoft.Web/sites/config@2024-04-01' = {
+  parent: webApp
+  name: 'web'
+  properties: {
+    cors: {
+      allowedOrigins: [
+        appUrl
+      ]
+    }
   }
 }
