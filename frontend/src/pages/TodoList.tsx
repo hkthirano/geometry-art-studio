@@ -23,7 +23,7 @@ const TodoListContent = () => {
         }
     }, [inProgress, todoListData, instance]);
 
-    return <>{todoListData}</>
+    return <pre>{JSON.stringify(todoListData, null, 2)}</pre>
 }
 
 /**
