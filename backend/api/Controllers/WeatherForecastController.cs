@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Identity.Web.Resource;
 
 namespace api.Controllers
 {
+    [Authorize]
+    [RequiredScope("tasks.read")]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
