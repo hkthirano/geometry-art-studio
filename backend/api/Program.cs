@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Identity.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.Configure<JwtBearerOptions>(JwtBearerDefaults.AuthenticationScheme, options =>
 {
     options.TokenValidationParameters.NameClaimType = "name";
+});
+
+// Cosmos DB
+var cosmosEndpoint = builder.Configuration.GetSection("CosmosEndpoint").Value;
+var cosmosKey = builder.Configuration.GetSection("CosmosKey").Value;
+var databaseName = "cosmicworks";
+builder.Services.AddSingleton<CosmosClient>(sp => new CosmosClient(cosmosEndpoint, cosmosKey));
+builder.Services.AddSingleton(sp =>
+{
+    var cosmosClient = sp.GetRequiredService<CosmosClient>();
+    return cosmosClient.GetContainer(databaseName, "products");
 });
 
 var app = builder.Build();
